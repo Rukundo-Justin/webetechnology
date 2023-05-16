@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+	<title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{../js/bootstrap.bundle.min.js}" ></script>
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{../css/style.css}">
+  </head>
+  <script defer>
+    function showDetail(button)
+    {
+      var x=button.parentNode.parentNode.getAttribute('id');
+      var xm=x.split('&');
+      document.getElementById('1').value=xm[0];
+      document.getElementById('2').innerHTML=xm[1];
+      var y=button.target.id;
+      document.getElementById('description').innerHTML=y;
+      document.getElementById('head').value=y;
+      // 
+      document.getElementById('id1').value=xm[0];
+      document.getElementById('description1').innerHTML=xm[2];
+      document.getElementById('head1').value=xm[1];
+    }
+  </script>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<a href="/admin"><span class="fa fa-cogs mr-3"></span>Dashboard</a>
+				</li>
+	          <li class="active">
+	            <a href="/admin/membership"><span class="fa fa-home mr-3"></span> Manage Membership</a>
+	          </li>
+	          <li>
+	              <a href="#"><span class="fa fa-user mr-3"></span> Manage Choir</a>
+	          </li>
+	          <li>
+              <a href="/admin/tithe"><span class="fa fa-briefcase mr-3"></span> Giving &Tithes</a>
+	          </li>
+	          <li>
+              <a href="/admin/user"><span class="fa fa-sticky-note mr-3"></span> Manage User</a>
+	          </li>
+	          <li>
+              <a href="/admin/event"><span class="fa fa-suitcase mr-3"></span> Event Manager</a>
+	          </li>
+	        
+	          <li class="bg-secondary">
+              <a href="/admin/anouncement"><span class="fa fa-paper-plane mr-3"></span>Announcements</a>
+	          </li>
+				<li>
+				<a href="/admin/church"><span class="fa fa-paper-plane mr-3"></span>Manage Churches</a>
+				</li>
+        <li>
+          <a href="/admin/duty"><span class="fa fa-paper-plane mr-3"></span>Manage Duty</a>
+          </li>
+			  </ul>
+	      </div>
+    	</nav>
+
+       <!-- Add anouncement modal trigger-->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Manage Announcement</h2>
+       <a data-bs-toggle="modal" data-bs-target="#anouncement" class="btn btn-primary" href="#" role="button">Add Anouncement</a>
+       <div class="alert alert-primary alert-dismissible fade show mt-3 mb-2" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong th:text="${message.messageheader}"></strong> <span th:text="${message.messagename}"></span>
+      </div>
+
+       <div class="table-responsive mt-3">
+        <table class="table table-striped
+        table-hover	
+        table-borderless
+        table-primary text-center
+        align-middle">
+            <thead class="table-light">
+                <caption>list of Recorded anouncement</caption>
+                <tr >
+                  <th>Head</th>
+                  <th>Description</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:id="${an.id} +'&'+ ${an.head}+'&'+${an.description}" th:each="an : ${anouncement}" class="table-primary" >
+                        <td th:id="${an.id} +'&'+ ${an.head}"  scope="row" th:text="${an.head}">Item</td>
+                        <td th:id="${an.id} +'&'+ ${an.head}"  th:text="${an.description}">Item</td>
+                        <td   th:text="${an.toDay}">Item</td>
+                        <td>
+                            <a onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#deleteanouncement"  class="btn btn-danger" role="button">Delete</a>
+                           <!-- updateanouncement -->
+                            <a th:id="${an.id} +'&'+ ${an.head}+'&'+${an.description}" onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#updateanouncement" class="btn btn-primary"  role="button">Update</a></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+        </table>
+       </div>
+       
+      </div>
+		</div>
+
+
+<!--Add anouncement Modal -->
+<section>
+    <div class="modal fade" id="anouncement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">Add Anouncement</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                      <form action="/anouncement/add" method="get">
+                        <input type="hidden" name="id" value="0">
+                        <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="text" 
+                              class="form-control" name="head" id="head" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Anouncement Head</label>
+                          </div>
+                          <div class="mb-3 border border-dark">
+                            <label for="" class="form-label text-center">Description</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                          </div>
+                          
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Anouncement</button>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Delete anouncement -->
+<section>
+    <div class="modal fade" id="deleteanouncement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">Delete Anouncement</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                       <form action="/anouncement/delete" method="get">
+                        <input  type="hidden" name="id" id="1">
+                        <span>are you sure you whant to delete anouncement having heading <span class="mark bg-dark text-light" id="2"></span></span>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                          <button type="submit" class="btn btn-success">Yes</button>
+                      </div>
+                       </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>  
+</section>
+<!-- Update Anouncement -->
+      <section>
+        <div class="modal fade" id="updateanouncement" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header bg-success">
+                                <h5 class="modal-title" id="modalTitleId">Update Anouncement</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                          <form action="/anouncement/add" method="get">
+                            <input type="hidden" name="id" id="id1">
+                            <div class="form-floating mb-3 border border-dark rounded p-2">
+                                <input
+                                  type="text" 
+                                  class="form-control" name="head" id="head1" placeholder="">
+                                <label class="fw-bolder text-dark" for="formId1">Anouncement Head</label>
+                              </div>
+                              <div class="mb-3 border border-dark">
+                                <label for="" class="form-label text-center">Description</label>
+                                <textarea class="form-control" name="description" id="description1" rows="3"></textarea>
+                              </div>
+                              
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success">Update Anouncement</button>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+<script th:src="@{../js/main.js}"></script>
+  </body>
+</html>

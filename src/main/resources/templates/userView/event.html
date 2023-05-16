@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+  	<title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1 class="text-center">
+					<a  class="logo"><img height="100" width="100" class="rounded-circle border-light border" th:src="@{'data:image/png;base64,' + ${user.profile}}" alt="" srcset=""> 
+					<span th:text="${user.name}">Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+	          <li class="active">
+	            <a th:href="@{'/user/home/'+${id}}"><span class="fa fa-home mr-3"></span> DashBoard</a>
+	          </li>
+	          <li>
+	              <a th:href="@{'/user/tithe/'+${id}}"><span class="fa fa-user mr-3"></span>Tithe & Offering</a>
+	          </li>
+	          <li>
+              <a th:href="@{'/user/duty/'+${id}}"><span class="fa fa-briefcase mr-3"></span>Duty</a>
+	          </li>
+			  <li>
+				<a th:href="@{'/user/membership/'+${id}}"><span class="fa fa-suitcase mr-3"></span>Membership</a>
+				</li>
+	          <li>
+              <a th:href="@{'/user/announcement/'+${id}}"><span class="fa fa-sticky-note mr-3"></span>Anouncement</a>
+	          </li>   
+	          <li>
+              <a th:href="@{'/user/event/'+${id}}"><span class="fa fa-cogs mr-3"></span> Event</a>
+	          </li>
+	          <li>
+              <a th:href="@{'/user/logout/'+${id}}"><span class="fa fa-paper-plane mr-3"></span> Logout</a>
+	          </li>
+	        </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Available Events</h2>
+       <div>
+        <!--  -->
+        <div th:each="event : ${event}">
+            <h2 th:text="${event.name}" class="text-center bg-secondary rounded">Name</h2>
+            <div class="card" >
+                <div class="card-body row col-sm-12">
+                    
+                    <div class="col-sm-4">
+                        <blockquote class="blockquote mb-0">
+                            <p >Event Place </p>
+                            <footer class="blockquote-footer fw-bolder"> 
+                            <cite title="Source title" th:text="${event.place}">Source title</cite>
+                          </footer>
+                          </blockquote>
+                          <blockquote class="blockquote mb-0">
+                            <p >Participant </p>
+                            <footer class="blockquote-footer fw-bolder"> 
+                            <cite title="Source title" th:text="${event.participant}">Source title</cite>
+                          </footer>
+                          </blockquote>
+                    </div>
+                    <div class="col-sm-4">
+                        <blockquote class="blockquote mb-0">
+                            <p>Event Type</p>
+                            <footer class="blockquote-footer fw-bolder">
+                              <cite title="Source title" th:text="${event.type}">Source title</cite>
+                          </footer>
+                          </blockquote>
+                    </div>
+                    <div class="col-sm-4">
+                        <blockquote class="blockquote mb-0">
+                            <p>Date</p>
+                            <footer class="blockquote-footer fw-bolder">
+                             <b>Start From </b><cite title="Source title" th:text="${event.fromDate}">Source title</cite><br>
+                              
+                            </footer>
+                            <footer class="blockquote-footer fw-bolder"><b>End To </b><cite title="Source title" th:text="${event.toDate}">Source title</cite></footer>
+                          </blockquote>
+                    </div>
+                  </div>
+            </div>
+        </div>
+	   </div>
+      </div>
+		</div>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

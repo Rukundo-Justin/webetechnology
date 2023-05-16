@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Church Management</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <link rel="stylesheet" th:href="@{/css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{/js/bootstrap.bundle.min.js}" ></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <script src="@{js/popper.min.js}">
+  </script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+  <script src="@{js/bootstrap.min.js}">
+  </script>
+   <script>
+    var alertList = document.querySelectorAll('.alert');
+    alertList.forEach(function (alert) {
+      new bootstrap.Alert(alert)
+    })
+  </script>
+</head>
+
+<body>
+
+ <section class="fixed-top mt-0">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-white  border border-bottom">
+    <a class="navbar-brand"><img height="80" th:src="@{/images/adeprlogo.png}" alt="" srcset=""></a>
+    <button class="navbar-toggler  d-lg-none bg-dark text-light fs-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+        aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+    <div class="collapse navbar-collapse text-danger" id="collapsibleNavId">
+        <ul class="navbar-nav me-auto   text-center mt-lg-0">  
+        </ul>
+      <div>
+        <ul class="navbar-nav me-auto  text-center mt-lg-0">
+          <li class="nav-item float-right">
+              <a class="nav-link   text-dark fw-bolder"  href="#" aria-current="page">Home</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link text-dark fw-bolder" href="#">Contact</a>
+          </li>
+          <li class="nav-item ">
+             <a class="nav-link text-dark fw-bolder" data-bs-toggle="modal" data-bs-target="#createaccount" href="#">Create Account</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link text-dark fw-bolder" data-bs-toggle="modal" data-bs-target="#login" href="#">Log In</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ </section>
+ <section>
+  <!-- page description -->
+  <div class="alert alert-info alert-dismissible fade show mt-5" style="visibility: hidden;" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>Alert Heading</strong> <span ></span>
+  </div>
+  <div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong th:text="${message.messageheader}">Alert Heading</strong>  <span th:text="${message.messagename}"></span>
+  </div>
+  
+ <section>
+  <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-lg " role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitleId">Log in Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+   
+        </div>
+        <div class="modal-body">
+          <!-- Login form -->
+          <form action="/login" method="post">
+          <div class="form-floating mb-3">
+            <input
+              type="email" required
+              class="form-control" name="email" id="formId1" placeholder="">
+              <label class="fw-bold"><i class="bi bi-envelope-at-fill"></i></i>Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password" required
+              class="form-control" name="password" id="formId1" placeholder="">
+            <label class="fw-bold" for="formId1"><i class="bi bi-eye"></i>Password</label>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Log In</button>
+          </div>
+        </form>
+        </div>
+        
+      </div>
+    </div>
+   </div>
+  
+    <div class="modal fade" id="createaccount" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitleId">Create account</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- signup -->
+      <form action="/signup" enctype="multipart/form-data" method="post">
+            
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control" name="name" id="formId1" placeholder="">
+              <label for="formId1">Name</label>
+            </div>
+            <div class="mb-3">
+              <select required class="w-100 p-2 text-center" name="gender" id="">
+               <option value="">--Select Gender--</option>
+               <option value="Male">Male</option>
+               <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control" name="phone" id="formId1" placeholder="">
+              <label for="formId1">Phone Number</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control" name="email" id="formId1" placeholder="">
+              <label for="formId1">Email</label>
+            </div>
+            <div class="mb-3">
+              <label for="" class="form-label">Choose Profile</label>
+              <input type="file" accept=".jpg" class="form-control" name="profile"  placeholder="" aria-describedby="fileHelpId">
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control" name="cpassword" id="formId1" placeholder="">
+              <label for="formId1">Create Password</label>
+            </div>
+            <div class="form-floating mb-3">
+             <input
+               type="password" 
+               class="form-control" name="rpassword" id="formId1" placeholder="">
+             <label for="formId1">Retype Password</label>
+           </div>
+           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+          </form>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+ </section>
+
+</body>
+
+</html>

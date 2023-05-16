@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+  	<title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+		<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+					<h1 class="text-center">
+					  <a  class="logo"><img height="100" width="100" class="rounded-circle border-light border" th:src="@{'data:image/png;base64,' + ${user.profile}}" alt="" srcset=""> 
+					  <span th:text="${user.name}">Portfolio Agency</span></a></h1>
+			  <ul class="list-unstyled components mb-5">
+				<li class="active">
+				  <a th:href="@{'/user/home/'+${id}}"><span class="fa fa-home mr-3"></span> DashBoard</a>
+				</li>
+				<li>
+					<a th:href="@{'/user/tithe/'+${id}}"><span class="fa fa-user mr-3"></span>Tithe & Offering</a>
+				</li>
+				<li>
+				<a th:href="@{'/user/duty/'+${id}}"><span class="fa fa-briefcase mr-3"></span>Duty</a>
+				</li>
+				<li>
+				  <a th:href="@{'/user/membership/'+${id}}"><span class="fa fa-suitcase mr-3"></span>Membership</a>
+				  </li>
+				<li>
+				<a th:href="@{'/user/announcement/'+${id}}"><span class="fa fa-sticky-note mr-3"></span>Anouncement</a>
+				</li>   
+				<li>
+				<a th:href="@{'/user/event/'+${id}}"><span class="fa fa-cogs mr-3"></span> Event</a>
+				</li>
+				<li>
+				<a th:href="@{'/user/logout/'+${id}}"><span class="fa fa-paper-plane mr-3"></span> Logout</a>
+				</li>
+			  </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Tithe and  offering</h2>
+		<button data-bs-toggle="modal" data-bs-target="#tithe" type="button" class="btn btn-primary">Add Tithe</button>
+		<!-- offering -->
+		<a  data-bs-toggle="modal" data-bs-target="#offering"  class="btn btn-primary text-light"  role="button">Add offering</a>
+       <a name="" id="" class="btn btn-primary" th:href="@{'/user/print/'+${id}}" role="button">Print</a>
+		<section class="mt-3">
+		 <div class="table-responsive">
+			<table class="table table-striped-columns
+			table-hover	
+			table-borderless
+			table-primary
+			align-middle">
+				<thead class="table-light">
+					<caption>Table of tithe & offering</caption>
+					<tr>
+						<th>Type of Offering</th>
+						<th>Amount</th>
+						<th>Payment Code</th>
+						<th>Uwishyuye</th>
+						<th>Payment Date</th>
+						<th>Church</th>
+						<th>Action</th>
+					</tr>
+					</thead>
+					<tbody class="table-group-divider">
+						<tr class="table-primary" th:each="i : ${offeringlist}">
+							<td scope="row" th:text="${i.category}">Item</td>
+							<td ><span th:text="${i.amount}"></span> <b>frw</b></td>
+							<td th:text="${i.paymentCode}">Item</td>	
+							<td th:each="p : ${i.userid}">
+								<span th:text="${p.name}"></span>
+							</td>
+							<td th:text="${i.issuedDate}"></td>
+							<td th:each="u : ${i.ururemboid}">
+								<span th:text="${u.name}"></span>
+							</td>
+							<td><svg xmlns="http://www.w3.org/2000/svg" width="50" height="30" fill="currentColor" class="bi bi-check-circle-fill text-success" viewBox="0 0 16 16">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+							  </svg></td>
+						</tr>
+						<tr class="table-success">
+							<td scope="row "><span class="text-dark  fs-bolder fs-5">Total</span></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><span th:text="${total}"></span> Frw</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						
+					</tfoot>
+			</table>
+		 </div>
+		 
+	   </section>
+      </div>
+		</div>
+
+<!--Add tithe Modal Body -->
+<div class="modal fade" id="tithe" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitleId">Add tithe</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				 <form th:action="@{'/addoffering/'+${id}}" method="post">
+					<input type="hidden" name="category" value="TITHE">
+					<div class="form-floating mb-3 ">
+						<label for="formId1">Amount</label>
+					  <input
+						type="text"
+						class="form-control border border-dark" name="amount" id="formId1" placeholder="">
+					  
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">City</label>
+						<select class="form-select form-select-lg" name="churchid" id="">
+							<option selected>--Select Church--</option>
+							<option  th:each="church :${churchlist}" th:value="${church.id}" th:text="${church.name}"></option>
+						</select>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Pay</button>
+					</div>
+				 </form>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+
+<!-- Optional: Place to the bottom of scripts -->
+<!--Add tithe Modal Body -->
+<div class="modal fade" id="offering" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitleId">Add Offering</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				 <form action="/addoffering/1" method="post">
+					<input type="hidden" name="category" value="OFFERING">
+					<div class="form-floating mb-3 ">
+						<label for="formId1">Amount</label>
+					  <input
+						type="text"
+						class="form-control border border-dark" name="amount" id="formId1" placeholder="">
+					  
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">City</label>
+						<select class="form-select form-select-lg" name="churchid" id="">
+							<option selected>--Select Church--</option>
+							<option  th:each="church :${churchlist}" th:value="${church.id}" th:text="${church.name}"></option>
+						</select>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary">Pay</button>
+					</div>
+				 </form>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<script>
+	const myModal = new bootstrap.Modal(document.getElementById('modalId'), options)
+
+</script>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+  </body>
+</html>

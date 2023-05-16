@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+  	<title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{../js/bootstrap.bundle.min.js}" ></script>
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{../css/style.css}">
+    <script defer>
+      function showUruremboDetail(button)
+      {
+        var x=button.parentNode.parentNode.getAttribute('id');
+        var splitted=x.split('&');     
+        document.getElementById('delid').value=splitted[0];
+        document.getElementById('delname').innerHTML=splitted[1];
+        document.getElementById('updateururemboname').value=splitted[1];
+        document.getElementById('delname').value=splitted[1];
+        document.getElementById('upurid').value=splitted[0];
+
+      }
+      function  showLeaderDetail(button)
+      {var x=button.parentNode.parentNode.getAttribute('id');
+        var splitted=x.split('&');
+        document.getElementById('1').innerHTML=splitted[1];
+      }
+    </script>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<a href="#"><span class="fa fa-cogs mr-3"></span>Dashboard</a>
+				</li>
+	          <li class="active">
+	            <a href="/admin/membership"><span class="fa fa-home mr-3"></span> Manage Membership</a>
+	          </li>
+	          <li>
+	              <a href="/admin/choir"><span class="fa fa-user mr-3"></span> Manage Choir</a>
+	          </li>
+	          <li>
+              <a href="/admin/tithe"><span class="fa fa-briefcase mr-3"></span> Giving &Tithes</a>
+	          </li>
+	          <li>
+              <a href="/admin/user"><span class="fa fa-sticky-note mr-3"></span> Manage User</a>
+	          </li>
+	          <li>
+              <a href="/admin/event"><span class="fa fa-suitcase mr-3"></span> Event Manager</a>
+	          </li>
+	        
+	          <li>
+              <a href="/admin/anouncement"><span class="fa fa-paper-plane mr-3"></span>Announcements</a>
+	          </li>
+				<li class="bg-secondary">
+				<a href="/admin/church"><span class="fa fa-paper-plane mr-3"></span>Manage Churches</a>
+				</li>
+        <li>
+          <a href="/admin/duty"><span class="fa fa-paper-plane mr-3"></span>Manage Duty</a>
+          </li>
+			  </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Church  Management</h2>
+        <a  data-bs-toggle="modal" data-bs-target="#ururembo" class="btn btn-primary" href="#" role="button">Add Ururembo</a>
+        <a data-bs-toggle="modal" data-bs-target="#parish" class="btn btn-primary" href="#" role="button">Add Parish</a>
+       <a  data-bs-toggle="modal" data-bs-target="#church"  class="btn btn-primary" href="#" role="button">Add Church</a>
+       
+       <div class="alert alert-primary alert-dismissible fade show mt-3 mb-2" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong th:text="${message.messageheader}"></strong> <span th:text="${message.messagename}"></span>
+      </div>
+      <!-- Display Ururembo -->
+<section>
+  <div class="table-responsive">
+    <table class="table table-striped-columns
+    table-hover	 
+    table-borderless
+    table-primary
+    align-middle">
+      <thead class="table-light">
+        <caption>Table of List of Recorded Ururembo and their Parish</caption>
+        <tr>
+          <th>Ururembo</th>
+          <th>Parish</th>
+          <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr th:id="${ururembo.id}+'&'+ ${ururembo.name}" th:each="ururembo : ${ururembolist}"   class="table-primary" >
+            <td  scope="row" th:text="${ururembo.getName}"></td>
+            <td  scope="row"><div th:each=" u: ${ururembo.getAll}"><span th:text="${u.name}"></span></div></td>
+            <td  class="text-center">
+              <!-- <a data-bs-toggle="modal" data-bs-target="#del" class="btn btn-primary" th:href="@{/church(i=${ururembo.id})}" role="button">Delete</a> -->
+                <button  onclick="showUruremboDetail(this)"   type="button" data-bs-toggle="modal" data-bs-target="#del" class="btn btn-danger">Delete</button>
+                <button onclick="showUruremboDetail(this)" type="button" data-bs-toggle="modal" data-bs-target="#updateururembo"  class="btn btn-primary">Update</button>
+              </td>
+          </tr>
+           
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+  </div>
+</section>
+<!-- Ururembo Triger modal -->
+<section>
+            <!-- Delete ururembo modal -->
+            <div class="modal fade" id="del" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitleId">Delete Ururembo</span></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                  <form action="/admin/church/del" method="get">
+                    <input type="hidden" name="id" id="delid">
+                    <!-- <input type="text" name="name" id="delname"> -->
+                    Are you Sure you want to delete <span id="delname"></span>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+<div class="modal fade" id="updateururembo" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitleId">Update Ururembo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <form action="/admin/church/update" method="get">
+        <input type="hidden" id="upurid" name="id">
+        <div class="form-floating mb-3 border border-dark rounded p-2">
+          <input id="updateururemboname" 
+            type="text" required
+            class="form-control" name="name" >
+          <label  class="fw-bolder text-dark" for="formId1">Name Of ururembo</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+       </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Ururembo Leaders table -->
+</section>
+<section>
+<div class="table-responsive">
+  <table class="table table-striped
+  table-hover	
+  table-borderless
+  table-primary
+  align-middle">
+    <thead class="table-light">
+      <caption>table of List of Ururembo Leader</caption>
+      <tr>
+        <th>Leader Name</th>
+        <th>Ururembo Name</th>
+        <th>Location</th>
+        <th>Phone Number</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr th:id="${user.id}+'&'+${user.name}" class="table-primary" th:each="user : ${ururemboLeaderlist}">
+          <td scope="row" th:text="${user.name}">Item</td>
+          <td th:text="${user.duty}">Item</td>
+          <td th:text="${user.location}">Item</td>
+          <td th:text="${user.phoneNumber}">Item</td>
+          <td>
+            <button  onclick="showLeaderDetail(this)"   type="button" data-bs-toggle="modal" data-bs-target="#deleteururembo" class="btn btn-danger">Delete</button>
+            <button  onclick="showLeaderDetail(this)"   type="button" data-bs-toggle="modal" data-bs-target="#del" class="btn btn-primary">Update</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        
+      </tfoot>
+  </table>
+</div>
+
+</section>
+       <!-- Ururembo Leaders -->
+ <section>
+  <div class="table-responsive">
+    <table class="table table-striped
+    table-hover	
+    table-borderless
+    table-primary
+    align-middle">
+      <thead class="table-light">
+        <caption>List of Churches and their Parish they belong</caption>
+        <tr>
+          <th>Parish Name</th>
+          <th>Parish Churches</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr class="table-primary" th:each="i :${parishlist}">
+            <td scope="row" th:text="${i.name}">Item</td>
+            <td><div th:each="p :${i.getAll}"><span th:text="${p.name}"></span></div></td>
+            <td><button type="button" class="btn btn-danger">Delete</button>
+              <button type="button" class="btn btn-primary">Update</button>
+            </td>
+          </tr>
+ 
+        </tbody>
+        <tfoot>
+          
+        </tfoot>
+    </table>
+  </div>
+  
+ </section>
+		</div>
+      </div>
+    <script th:src="@{../js/jquery.min.js}"></script>
+    <script th:src="@{../js/popper.js}"></script>
+    <script th:src="@{../js/bootstrap.min.js}"></script>
+    <script th:src="@{../js/main.js}"></script>
+    <!-- Church management modals -->
+      <section>
+<!--Add church Modal trigger button -->
+ <div class="modal fade" id="ururembo" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Add Ururembo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/ururembo/add" method="post">
+                <div class="form-floating mb-3 border border-dark rounded p-2">
+                  <input type="hidden" value="0" name="id">
+                  <input type="hidden" name="type" value="URUREMBO">
+                  <input type="hidden" value="@" name="foreignkey">
+                    <input
+                      type="text" required
+                      class="form-control" name="name" >
+                    <label class="fw-bolder text-dark" for="formId1">Name Of ururembo</label>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Add Leader</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+     
+      </div>
+    </div>
+   </div>
+   <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2">Add Ururembo Leader</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/dutiesmanagement" method="post">
+          <div class="modal-body">
+            <div class="form-floating mb-3 border border-dark rounded p-2">
+              <input type="hidden" name="role" value="admin 1">
+              <input type="hidden" name="parish" value="everywhere">
+              <input 
+                type="text" required
+                class="form-control" name="name" id="formId1" placeholder="">
+              <label class="fw-bolder text-dark" for="formId1">Leader Names</label>
+            </div>
+            <div class="form-floating mb-3 border border-dark rounded p-2">
+              <input
+                type="text" required
+                class="form-control" name="phone" id="formId1" placeholder="">
+              <label class="fw-bolder text-dark" for="formId1">Telephone Number</label>
+            </div>
+            <div class="mb-3">
+              <select required name="gender" class="w-100 p-2 border border-dark text-center">
+                  <option value="">--Select Gender--</option>
+                  <option value="Male" >Male</option>
+                  <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-floating mb-3 border border-dark rounded p-2">
+              <input
+                type="text" required
+                class="form-control" name="location" id="formId1" placeholder="">
+              <label class="fw-bolder text-dark" for="formId1">Location[Province,District,Sector,Cell]</label>
+            </div>
+            <div class="form-floating mb-3 border border-dark rounded p-2">
+              <input
+                type="email" required
+                class="form-control" name="email" id="formId1" placeholder="">
+              <label class="fw-bolder text-dark" for="formId1">Email</label>
+            </div>
+            <div class="mb-3">
+              <select name="duty" required class="w-100 p-2 border border-dark text-center">
+                  <option value="">--Select Ururembo--</option>
+                  <option th:each="ururembo : ${ururembolist}" th:value="${ururembo.name}"  th:text="${ururembo.name}"></option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </form>
+        </div>
+        
+      </div>
+    </div>
+   </div>
+</section>
+<section>
+    <!--Add Parish Modal trigger button -->
+     <div class="modal fade" id="parish" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalToggleLabel">Add Parish</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin/ururembo/add" method="post">
+                    <div class="form-floating mb-3 border border-dark rounded p-2">
+                      <input type="hidden" value="0" name="id">
+                      <input type="hidden" name="type" value="PARISH">
+                        <input
+                          type="text"
+                          class="form-control" name="name" id="formId1" placeholder="">
+                        <label class="fw-bolder text-dark" for="formId1">Name Of Parish</label>
+                      </div>
+                      <div class="mb-3">
+                        <select name="foreignkey" required class="w-100 p-2 border border-dark text-center">
+                          <option value="">--Select Ururembo--</option>
+                          <option th:each="ururembo : ${ururembolist}" th:value="${ururembo.id}"  th:text="${ururembo.name}"></option>
+                      </select>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                        <button type="button" class="btn btn-primary" data-bs-target="#addparish" data-bs-toggle="modal">Add Leader</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+         
+          </div>
+        </div>
+       </div>
+       <div class="modal fade" id="addparish" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalToggleLabel2">Add Parish Leader</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-floating mb-3 border border-dark rounded p-2">
+                <input
+                  type="text"
+                  class="form-control" name="formId1" id="formId1" placeholder="">
+                <label class="fw-bolder text-dark" for="formId1">Leader Names</label>
+              </div>
+              <div class="form-floating mb-3 border border-dark rounded p-2">
+                <input
+                  type="text"
+                  class="form-control" name="formId1" id="formId1" placeholder="">
+                <label class="fw-bolder text-dark" for="formId1">Telephone Number</label>
+              </div>
+              <div class="mb-3">
+                <select name="" class="w-100 p-2 border border-dark text-center">
+                    <option value="">--Select Gender--</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-floating mb-3 border border-dark rounded p-2">
+                <input
+                  type="text"
+                  class="form-control" name="formId1" id="formId1" placeholder="">
+                <label class="fw-bolder text-dark" for="formId1">Location[Province,District,Sector,Cell]</label>
+              </div>
+              <div class="form-floating mb-3 border border-dark rounded p-2">
+                <input
+                  type="email"
+                  class="form-control" name="formId1" id="formId1" placeholder="">
+                <label class="fw-bolder text-dark" for="formId1">Email</label>
+              </div>
+              <div class="mb-3">
+                <select name="" class="w-100 p-2 border border-dark text-center">
+                    <option value="">--Select Parish--</option>
+                    <option th:each="i : ${parishlist}" th:value="${i.id}" th:text="${i.name}"></option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+              <button type="button" class="btn btn-primary">Save</button>
+            </div>
+          </div>
+        </div>
+       </div>
+    </section>
+    <section>
+        <!--Add Church Modal trigger button -->
+         <div class="modal fade" id="church" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalToggleLabel">Add Church</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                  <form action="/admin/ururembo/add" method="post">
+                    
+                      <input type="hidden" value="0" name="id">
+                      <input type="hidden" name="type" value="CHURCH">
+                        <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="text"
+                              class="form-control" name="name" id="formId1" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Name Of Church</label>
+                          </div>
+                          <div class="mb-3">
+                            <select name="foreignkey" class="w-100 p-2 border border-dark text-center">
+                                <option value="">--Select Parish--</option>
+                                <option th:each="i : ${parishlist}" th:value="${i.id}" th:text="${i.name}"></option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                            <button type="button" class="btn btn-primary" data-bs-target="#addchurch" data-bs-toggle="modal">Add Leader</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+             
+              </div>
+            </div>
+           </div>
+           <div class="modal fade" id="addchurch" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalToggleLabel2">Add Church Leader</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-floating mb-3 border border-dark rounded p-2">
+                    <input
+                      type="text"
+                      class="form-control" name="formId1" id="formId1" placeholder="">
+                    <label class="fw-bolder text-dark" for="formId1">Leader Names</label>
+                  </div>
+                  <div class="form-floating mb-3 border border-dark rounded p-2">
+                    <input
+                      type="text"
+                      class="form-control" name="formId1" id="formId1" placeholder="">
+                    <label class="fw-bolder text-dark" for="formId1">Telephone Number</label>
+                  </div>
+                  <div class="mb-3">
+                    <select name="" class="w-100 p-2 border border-dark text-center">
+                        <option value="">--Select Gender--</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                  </div>
+                  <div class="form-floating mb-3 border border-dark rounded p-2">
+                    <input
+                      type="text"
+                      class="form-control" name="formId1" id="formId1" placeholder="">
+                    <label class="fw-bolder text-dark" for="formId1">Location[Province,District,Sector,Cell]</label>
+                  </div>
+                  <div class="form-floating mb-3 border border-dark rounded p-2">
+                    <input
+                      type="email"
+                      class="form-control" name="formId1" id="formId1" placeholder="">
+                    <label class="fw-bolder text-dark" for="formId1">Email</label>
+                  </div>
+                  <div class="mb-3">
+                    <select name="" class="w-100 p-2 border border-dark text-center">
+                        <option value="">--Select Parish--</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                  <button type="button" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+           </div>
+        </section>
+        <!-- Update Ururembo -->
+       <section>
+        <div class="modal fade" id="updateururembo" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel">Update Ururembo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <form action="" method="post">
+                      <div class="form-floating mb-3 border border-dark rounded p-2">
+                          <input
+                            type="text"
+                            class="form-control" name="formId1" id="formId1" placeholder="">
+                          <label class="fw-bolder text-dark" for="formId1">Name Of ururembo</label>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                          <button type="button" class="btn btn-primary" data-bs-target="#updateururemboleader" data-bs-toggle="modal">Update Leader</button>
+                          <button type="button" class="btn btn-primary">Update</button>
+                      </div>
+                  </form>
+                  <div class="modal fade" id="updateururemboleader" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalToggleLabel2">Update Ururembo Leader</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="text"
+                              class="form-control" name="formId1" id="formId1" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Leader Names</label>
+                          </div>
+                          <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="text"
+                              class="form-control" name="formId1" id="formId1" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Telephone Number</label>
+                          </div>
+                          <div class="mb-3">
+                            <select name="" class="w-100 p-2 border border-dark text-center">
+                                <option value="">--Select Gender--</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                          </div>
+                          <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="text"
+                              class="form-control" name="formId1" id="formId1" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Location[Province,District,Sector,Cell]</label>
+                          </div>
+                          <div class="form-floating mb-3 border border-dark rounded p-2">
+                            <input
+                              type="email"
+                              class="form-control" name="formId1" id="formId1" placeholder="">
+                            <label class="fw-bolder text-dark" for="formId1">Email</label>
+                          </div>
+                          <div class="mb-3">
+                            <select name="" class="w-100 p-2 border border-dark text-center">
+                                <option value="">--Select Ururembo--</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                          <button type="button" class="btn btn-primary">Update</button>
+                        </div>
+                      </div>
+                    </div>
+                   </div>
+            </div>
+          </div>
+         </div>
+       </section>
+       <!-- Delete Ururembo -->
+       <section>
+        <div class="modal fade" id="deleteururembo" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-danger">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Delete Ururembo Leader</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+               Do you want to Remove <span class="mark bg-dark text-light" id="1"></span> on Ururembo Leader duty?
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-target="#deleteleaderururembo" data-bs-toggle="modal">Delete Leader</button>
+              </div>
+              </div>
+            </div>
+            </div>
+          </div>
+<!-- Delete ururembo leader -->
+          <div class="modal fade" id="deleteleaderururembo" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header bg-danger">
+                  <h5 class="modal-title" id="exampleModalToggleLabel2">Delete Ururembo Leader</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Ururembo Leader Name:
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-target="#updateururemboleader" data-bs-toggle="modal">Delete Leader</button>
+                    <button type="button" class="btn btn-primary">Update</button>
+                </div>
+                </div>
+              </div>
+              </div>
+            </div>
+</section>
+
+  </body>
+</html>

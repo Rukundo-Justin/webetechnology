@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+	<title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{../js/bootstrap.bundle.min.js}" ></script>
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{../css/style.css}">
+    <script>
+      function showDetail(button)
+      {
+        var x=button.parentNode.parentNode.getAttribute('id');
+        document.getElementById('1').innerHTML=x.split('&')[1];
+        document.getElementById('2').value=x.split('&')[0];
+        document.getElementById('id1').value=x.split('&')[0];
+        document.getElementById('name1').value=x.split('&')[1];
+        document.getElementById('president1').value=x.split('&')[2];
+        document.getElementById('phone1').value=x.split('&')[2];
+      }
+    </script>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<a href="/admin"><span class="fa fa-cogs mr-3"></span>Dashboard</a>
+				</li>
+	          <li class="active">
+	            <a href="/admin/membership"><span class="fa fa-home mr-3"></span> Manage Membership</a>
+	          </li>
+	          <li class="bg-secondary">
+	              <a href="/admin/choir"><span class="fa fa-user mr-3"></span> Manage Choir</a>
+	          </li>
+	          <li>
+              <a href="/admin/tithe"><span class="fa fa-briefcase mr-3"></span> Giving &Tithes</a>
+	          </li>
+	          <li>
+              <a href="/admin/user"><span class="fa fa-sticky-note mr-3"></span> Manage User</a>
+	          </li>
+	          <li>
+              <a href="/admin/event"><span class="fa fa-suitcase mr-3"></span> Event Manager</a>
+	          </li>
+	        
+	          <li>
+              <a href="/admin/anouncement"><span class="fa fa-paper-plane mr-3"></span>Announcements</a>
+	          </li>
+				<li>
+				<a href="/admin/church"><span class="fa fa-paper-plane mr-3"></span>Manage Churches</a>
+				</li>
+        <li>
+          <a href="/admin/duty"><span class="fa fa-paper-plane mr-3"></span>Manage Duty</a>
+          </li>
+			  </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Manage Choir</h2>
+        <a name="" id="" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#modalId" href="#" role="button">Add Choir</a>
+        <div class="alert alert-primary alert-dismissible fade show mt-3 " role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <strong th:text="${message.messageheader}"></strong> <span th:text="${message.messagename}"></span>
+        </div>
+        <div class="table-responsive mt-4">
+        <table class="table table-striped-columns
+        table-hover	
+        table-borderless
+        table-primary
+        align-middle">
+            <thead class="table-light">
+                <caption>Manage Choir table</caption>
+                <tr>
+                    <th>Choir Name</th>
+                    <th>President</th>
+                    <th>Church Name</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:id="${c.id}+'&'+${c.name}+'&'+${c.President}+'&'+${c.phone}" class="table-primary" th:each="c : ${choir}">
+                      <td th:text="${c.name}">Item</td>
+                        <td >
+                          <div><b>Name:</b><span th:text="${c.President}"></span></div>
+                          <div><b>Phone:</b><span th:text="${c.phone}"></span></div>
+                        </td>
+                        <td ><div th:each="i : ${c.churchmember}">
+                          <span th:text="${i.name}"></span>
+                        </div>
+                      </td>
+                        <td >
+                          <div><b>From Date</b>: <span th:text="${c.fromDate}"></span></div>
+                          <div><b>Record Date</b>: <span th:text="${c.toDay}"></span></div>
+                        </td>
+                        <td>
+                            <a onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#delete" class="btn btn-danger" href="#" role="button">Delete</a>
+                            <a onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#update" class="btn btn-primary" href="#" role="button">Update</a>
+
+                      </td>
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+        </table>
+       </div>
+       
+      </div>
+		</div>
+  
+        <!-- Modal Body -->
+      
+        <div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">Add Choir</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                       <form action="/addchoir" method="post">
+                        <div class="form-floating mb-3 p-2 border border-dark">
+                          <input type="hidden" name="id" value="-1">
+                          <input 
+                            type="text"
+                            class="form-control" name="name" id="formId1" placeholder="">
+                          <label class="fw-bolder text-dark"  for="formId1">Choir Name</label>
+                        </div>
+                        <div class="form-floating mb-3 p-2 border border-dark">
+                          <input
+                            type="text"
+                            class="form-control" name="president" id="formId1" placeholder="">
+                          <label class="fw-bolder text-dark"  for="formId1">President name</label>
+                        </div>
+                        <div class="form-floating mb-3 p-2 border border-dark">
+                          <input
+                            type="text"
+                            class="form-control" name="phone" id="phone" placeholder="">
+                          <label class="fw-bolder text-dark"  for="formId1">President phone Number</label>
+                        </div>
+                        <div class="form-floating mb-3 p-2 border border-dark">
+                          <input
+                            type="datetime-local"
+                            class="form-control" name="fromDate" id="formId1" placeholder="">
+                          <label class="fw-bolder text-dark"  for="formId1">fromDate</label>
+                        </div>
+                        <div class="mb-3">
+                          <select name="parishname" class="w-100 p-2 border border-dark text-center">
+                              <option value="">--Select Parish--</option>
+                              <option th:each="i : ${parishlist}" th:value="${i.id}" th:text="${i.name}"></option>
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <select name="churchid" class="w-100 p-2 border border-dark text-center">
+                              <option value="">--Select Church--</option>
+                              <option th:value="${church.id}" th:each="church :${church}" th:text="${church.name}"></option>
+                          </select>
+                        </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                       </form>
+                    </div>
+            </div>
+        </div>
+        
+       <!--Update Modal Body -->
+      
+       <section>
+        <div class="modal fade" id="update" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header bg-success">
+                      <h5 class="modal-title" id="modalTitleId">Update Choir</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <form action="/addchoir" method="post">
+                      <div class="form-floating mb-3 p-2 border border-dark">
+                        <input type="hidden" name="id" id="id1">
+                        <input 
+                          type="text"
+                          class="form-control" name="name" id="name1" placeholder="">
+                        <label class="fw-bolder text-dark"  for="formId1">Choir Name</label>
+                      </div>
+                      <div class="form-floating mb-3 p-2 border border-dark">
+                        <input
+                          type="text"
+                          class="form-control" name="president" id="president1" placeholder="">
+                        <label class="fw-bolder text-dark"  for="formId1">President name</label>
+                      </div>
+                      <div class="form-floating mb-3 p-2 border border-dark">
+                        <input
+                          type="text"
+                          class="form-control" name="phone" id="phone1" placeholder="">
+                        <label class="fw-bolder text-dark"  for="formId1">President phone Number</label>
+                      </div>
+                      <div class="form-floating mb-3 p-2 border border-dark">
+                        <input
+                          type="datetime-local"
+                          class="form-control" name="fromDate" id="fromdate1" placeholder="">
+                        <label class="fw-bolder text-dark"  for="formId1">fromDate</label>
+                      </div>
+                      <div class="mb-3">
+                        <select name="parishname" class="w-100 p-2 border border-dark text-center">
+                            <option value="">--Select Parish--</option>
+                            <option th:each="i : ${parishlist}" th:value="${i.id}" th:text="${i.name}"></option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <select name="churchid" class="w-100 p-2 border border-dark text-center">
+                            <option value="">--Select Church--</option>
+                            <option th:value="${church.id}" th:each="church :${church}" th:text="${church.name}"></option>
+                        </select>
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+                     </form>
+                  </div>
+          </div>
+      </div>
+       </section>
+    <!-- Delete -->
+     
+    <!--delete Modal Body -->
+   
+    <div class="modal fade" id="delete" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="modalTitleId">Delete Choir</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form action="/deletechoir" method="post">
+                    <input type="hidden" id="2" name="id">
+                    Do you want to delete <span id="1"></span> 
+                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script th:src="@{../js/jquery.min.js}"></script>
+    <script th:src="@{../js/popper.js}"></script>
+    <script th:src="@{../js/bootstrap.min.js}"></script>
+    <script th:src="@{../js/main.js}"></script>
+  </body>
+</html>

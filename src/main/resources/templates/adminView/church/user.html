@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{../js/bootstrap.bundle.min.js}" ></script>
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{../css/style.css}">
+    <script>
+      function showSetail(button)
+      { var x=button.parentNode.parentNode.getAttribute('id');
+        document.getElementById('1').innerHTML=x.split('&')[1];
+        document.getElementById('2').innerHTML=x.split('&')[2];
+        document.getElementById('3').value=x.split('&')[0];
+      }
+    </script>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<a href="/admin"><span class="fa fa-cogs mr-3"></span>Dashboard</a>
+				</li>
+	          <li class="active">
+	            <a href="/admin/membership"><span class="fa fa-home mr-3"></span> Manage Membership</a>
+	          </li>
+	          <li>
+	              <a href="/admin/choir"><span class="fa fa-user mr-3"></span> Manage Choir</a>
+	          </li>
+	          <li>
+              <a href="/admin/tithe"><span class="fa fa-briefcase mr-3"></span> Giving &Tithes</a>
+	          </li>
+	          <li class="bg-secondary">
+              <a href="/admin/user"><span class="fa fa-sticky-note mr-3"></span> Manage User</a>
+	          </li>
+	          <li>
+              <a href="/admin/event"><span class="fa fa-suitcase mr-3"></span> Event Manager</a>
+	          </li>
+	        
+	          <li>
+              <a href="/admin/anouncement"><span class="fa fa-paper-plane mr-3"></span>Announcements</a>
+	          </li>
+				<li>
+				<a href="/admin/church"><span class="fa fa-paper-plane mr-3"></span>Manage Churches</a>
+				</li>
+        <li>
+          <a href="/admin/duty"><span class="fa fa-paper-plane mr-3"></span>Manage Duty</a>
+          </li>
+			  </ul>
+	      </div>
+    	</nav>
+
+        <!-- Page Content  -->
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Manage User</h2>
+<div>
+  <a name="" id="" class="btn btn-primary" href="#1" role="button">User With no Memberahip</a>
+  <a name="" id="" class="btn btn-primary" href="#2" role="button">User Having  Memberahip</a>
+</div>
+        <div class="alert alert-primary alert-dismissible fade show mt-3 mb-2" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong th:text="${message.messageheader}"></strong> <span th:text="${message.messagename}"></span>
+          </div>
+       <div class="table-responsive mt-3" id="1">
+        <table class="table table-striped-columns
+        table-hover	
+        table-borderless
+        table-primary
+        align-middle">
+            <thead class="table-light">
+                <caption>User having no church membership</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Phone Number</th>
+                    <th>Church</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:id="${user.id}+'&'+${user.name}+'&'" class="table-primary" th:each="user : ${user}" th:if="${user.getChurch()==null}">
+                        <td scope="row" th:text="${user.name}">Item</td>
+                        <td th:text="${user.gender}">Item</td>
+                        <td th:text="${user.phoneNumber}">Item</td>
+                        <td class="bg-danger" >
+                          <div class="text-center fs-5 fw-bolder">--</div>
+                        </td>
+                        <!-- <td th:if="${user.getChurch()!=null}" th:text="${user.church.name}"></td>-->
+                        <td> 
+                         <a onclick="showSetail(this)" data-bs-toggle="modal" data-bs-target="#modalId" class="btn btn-danger" href="#" role="button">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+        </table>
+       </div>
+       <!--  -->
+       <div class="table-responsive" id="2">
+        <table class="table table-striped-columns
+        table-hover	
+        table-borderless
+        table-primary
+        align-middle">
+            <thead class="table-light">
+                <caption>User having church membership</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Phone Number</th>
+                    <th>Church</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:id="${user.id}+'&'+${user.name}+'&'" class="table-primary" th:each="user : ${user}" th:if="${user.getChurch()!=null}">
+                        <td scope="row" th:text="${user.name}">Item</td>
+                        <td th:text="${user.gender}">Item</td>
+                        <td th:text="${user.phoneNumber}">Item</td> 
+                        <td th:if="${user.getChurch()!=null}" th:text="${user.church.name}"></td>
+                        <td> 
+                         <a onclick="showSetail(this)" data-bs-toggle="modal" data-bs-target="#modalId" class="btn btn-danger" href="#" role="button">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+        </table>
+       </div>
+      </div>
+		</div>
+
+<!-- Delete User -->
+<div class="modal fade" id="modalId" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-light" id="modalTitleId">Delete User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <form action="" method="post">
+                <input type="hidden" name="id" id="3">
+                <div>Do you want to Delete <span id="1"></span> who prays in <span id="2"></span>?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+               </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<script th:src="@{../js/jquery.min.js}"></script>
+    <script th:src="@{../js/popper.js}"></script>
+    <script th:src="@{../js/bootstrap.min.js}"></script>
+    <script th:src="@{../js/main.js}"></script>
+  </body>
+</html>

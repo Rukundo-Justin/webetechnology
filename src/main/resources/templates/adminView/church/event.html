@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Sidebar 05</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{../css/bootstrap/bootstrap.min.css}" >
+<script th:src="@{../js/bootstrap.bundle.min.js}" ></script>
+  <link rel="stylesheet" th:href=" @{css/bootstrap.min.css}">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" th:href="@{../css/style.css}">
+    <script>
+      function showDetail(button)
+   {
+var x=button.parentNode.parentNode.getAttribute('id');
+var xm=x.split('&');
+document.getElementById('11').innerHTML=xm[1];
+document.getElementById('id1').value=xm[0];
+ document.getElementById('id11').value=xm[0];
+ document.getElementById('name1').value=xm[1];
+ 
+ document.getElementById('type1').value=xm[2];
+ document.getElementById('place1').value=xm[3];
+ document.getElementById('part1').value=xm[4];
+   }
+   </script>
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Toggle Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Portfolic <span>Portfolio Agency</span></a></h1>
+	        <ul class="list-unstyled components mb-5">
+				<li>
+					<a href="/admin"><span class="fa fa-cogs mr-3"></span>Dashboard</a>
+				</li>
+	          <li class="active">
+	            <a href="/admin/membership"><span class="fa fa-home mr-3"></span> Manage Membership</a>
+	          </li>
+	          <li>
+	              <a href="/admin/choir"><span class="fa fa-user mr-3"></span> Manage Choir</a>
+	          </li>
+	          <li>
+              <a href="/admin/tithe"><span class="fa fa-briefcase mr-3"></span> Giving &Tithes</a>
+	          </li>
+	          <li>
+              <a href="/admin/user"><span class="fa fa-sticky-note mr-3"></span> Manage User</a>
+	          </li>
+	          <li class="bg-secondary">
+              <a href="/admin/event"><span class="fa fa-suitcase mr-3"></span> Event Management</a>
+	          </li>
+	        
+	          <li>
+              <a href="/admin/anouncement"><span class="fa fa-paper-plane mr-3"></span>Announcements</a>
+	          </li>
+				<li>
+				<a href="/admin/church"><span class="fa fa-paper-plane mr-3"></span>Manage Churches</a>
+				</li>
+        <li>
+          <a href="/admin/duty"><span class="fa fa-paper-plane mr-3"></span>Manage Duty</a>
+          </li>
+			  </ul>
+	      </div>
+    	</nav>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Event Management</h2>
+        <!-- add event modal triger -->
+       <a data-bs-toggle="modal" data-bs-target="#addevent" class="btn btn-primary" href="#" role="button">Add Event</a>
+       <div class="alert alert-primary alert-dismissible fade show mt-3 mb-2" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong th:text="${message.messageheader}"></strong> <span th:text="${message.messagename}"></span>
+      </div>
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-striped-columns
+        table-hover	 text-center
+        table-borderless
+        table-primary
+        align-middle">
+            <thead class="table-light">
+                <caption>Event Management table</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Event type</th>
+                    <th>Participant</th>
+                    <th>from Date</th>
+                    <th>to Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:id="${event.id}+'&'+${event.name}+'&'+${event.type}+'&'+${event.place}+'&'+${event.participant}" class="table-primary" th:each="event : ${event}">
+                        <td scope="row" th:text="${event.name}">Item</td>
+                        <td th:text="${event.type}">Item</td>
+                        <td th:text="${event.participant}"></td>
+                        <td th:text="${event.fromDate}">Item</td>
+                        <td th:text="${event.toDate}">Item</td>
+                        <td> 
+                        <a onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#deleteevent" class="btn btn-danger"  role="button">Delete</a>
+                            <a onclick="showDetail(this)" data-bs-toggle="modal" data-bs-target="#updateevent" class="btn btn-primary"   role="button">Update</a>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+                <tfoot>
+                    
+                </tfoot>
+        </table>
+    </div>
+    
+    </div>
+		</div>
+<section>
+<!-- Add event Modal -->
+<div class="modal fade" id="addevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitleId">Add Event</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+            <div class="modal-body">
+              <form action="/addevent" method="get">
+                <div class="container-fluid">
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input type="hidden" name="id" value="-1">
+                      <input
+                        type="text"
+                        class="form-control" name="name" id="name" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Name</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="type" id="type" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event type</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="place" id="type" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Place</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="participant" id="type" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Participant</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="datetime-local"
+                        class="form-control" name="fromdate" id="formId1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">from Date</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                     <input
+                       type="datetime-local"
+                       class="form-control" name="todate" id="formId1" placeholder="">
+                     <label class="fw-bolder text-dark"  for="formId1">to Date</label>
+                   </div>
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                 <button type="submit" class="btn btn-primary">Save</button>
+             </div>
+              </form>  
+        </div>
+    </div>
+</div>
+</section>
+<!-- Delete event Form -->
+<section>
+    <div class="modal fade" id="deleteevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                            <h5 class="modal-title" id="modalTitleId">Delete Event</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                <div class="modal-body">
+            <form action="/deletevent" method="post">
+              <input type="hidden" id="id1" name="id">
+              <div class="container-fluid">
+                Doyou want to delete  <span class="mark bg-danger text-light" id="11"></span> event?
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+            <button type="submit" class="btn btn-success">Yes</button>
+        </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Update event Form -->
+<section>
+  <div class="modal fade" id="updateevent" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="modal-header bg-primary">
+                        <h5 class="modal-title" id="modalTitleId">Add Event</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+            <div class="modal-body">
+              <form action="/addevent" method="get">
+                <input type="hidden" name="id" id="id11">
+                <div class="container-fluid">
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="name" id="name1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Name</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="type" id="type1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event type</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="place" id="place1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Place</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="text"
+                        class="form-control" name="participant" id="part1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">Event Participant</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                      <input
+                        type="datetime-local"
+                        class="form-control" name="fromdate" id="formId1" placeholder="">
+                      <label class="fw-bolder text-dark"  for="formId1">from Date</label>
+                    </div>
+                    <div class="form-floating mb-3 p-2 border border-dark">
+                     <input
+                       type="datetime-local"
+                       class="form-control" name="todate" id="formId1" placeholder="">
+                     <label class="fw-bolder text-dark"  for="formId1">to Date</label>
+                   </div>
+                 </div>
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                 <button type="submit" class="btn btn-primary">Update</button>
+             </div>
+              </form>  
+        </div>
+    </div>
+</div>
+</section>
+
+
+
+<script th:src="@{../js/jquery.min.js}"></script>
+<script th:src="@{../js/popper.js}"></script>
+<script th:src="@{../js/bootstrap.min.js}"></script>
+<script th:src="@{../js/main.js}"></script>
+  </body>
+</html>
