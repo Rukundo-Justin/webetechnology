@@ -11,6 +11,7 @@
 		<link rel="stylesheet" th:href="@{/css/style.css}">
   </head>
   <body>
+	
 		
 		<div class="wrapper d-flex align-items-stretch">
 			<nav id="sidebar">
@@ -53,10 +54,13 @@
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 pt-5">
         <h2 class="mb-4">Church Anouncement</h2>
+		 <div class="mb-5">
+			<input type="search" class="w-50" placeholder="Search"><button class="btn-primary">Search</button>
+		 </div>
         <section th:each="a :${announcement}">
             <div class="card" style="background-color:rgb(255, 255, 255); border-color:darkblue;">
               
-              <div class="card-body">
+              <div class="card-body" >
                 <h4 class="card-title" th:text="${a.head}">Title</h4>
                 <p class="card-text" th:text="${a.description}">Text</p>
                 <p class="form-text text-muted fs-italic">
@@ -76,4 +80,12 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
   </body>
+
+  <style>
+.input-group{
+ margin-right: 75%;
+
+}
+
+  </style>
 </html>
